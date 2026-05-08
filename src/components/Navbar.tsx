@@ -41,6 +41,7 @@ export function Navbar() {
           <NavLink to="/gallery" label="Gallery" />
           {user && <NavLink to="/dashboard" label="Dashboard" />}
           {user && <NavLink to="/upload" label="Upload" />}
+          {isAdmin && <NavLink to="/admin" label="Admin" />}
         </nav>
 
         <div className="flex items-center gap-2">
