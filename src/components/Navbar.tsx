@@ -66,6 +66,14 @@ export function Navbar() {
               <Button asChild size="sm" variant="ghost" className="sm:hidden">
                 <Link to="/gallery"><ImageIcon className="h-4 w-4" /></Link>
               </Button>
+              <Button asChild size="sm" variant="ghost">
+                <Link to="/settings"><Settings className="h-4 w-4" /><span className="ml-1 hidden sm:inline">Settings</span></Link>
+              </Button>
+              {isAdmin && (
+                <Button asChild size="sm" variant="ghost" className="sm:hidden">
+                  <Link to="/admin"><Shield className="h-4 w-4" /></Link>
+                </Button>
+              )}
               <Button onClick={handleLogout} size="sm" variant="ghost">
                 <LogOut className="h-4 w-4" />
                 <span className="ml-1 hidden sm:inline">Logout</span>
