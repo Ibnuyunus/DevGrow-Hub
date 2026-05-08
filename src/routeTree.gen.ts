@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UploadRouteImport } from './routes/upload'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 
+const UploadRoute = UploadRouteImport.update({
+  id: '/upload',
+  path: '/upload',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GalleryRoute = GalleryRouteImport.update({
   id: '/gallery',
   path: '/gallery',
@@ -40,12 +46,14 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
   '/gallery': typeof GalleryRoute
+  '/upload': typeof UploadRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
   '/gallery': typeof GalleryRoute
+  '/upload': typeof UploadRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,14 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
   '/gallery': typeof GalleryRoute
+  '/upload': typeof UploadRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/dashboard' | '/gallery'
+  fullPaths: '/' | '/auth' | '/dashboard' | '/gallery' | '/upload'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/dashboard' | '/gallery'
-  id: '__root__' | '/' | '/auth' | '/dashboard' | '/gallery'
+  to: '/' | '/auth' | '/dashboard' | '/gallery' | '/upload'
+  id: '__root__' | '/' | '/auth' | '/dashboard' | '/gallery' | '/upload'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,10 +76,18 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   DashboardRoute: typeof DashboardRoute
   GalleryRoute: typeof GalleryRoute
+  UploadRoute: typeof UploadRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/upload': {
+      id: '/upload'
+      path: '/upload'
+      fullPath: '/upload'
+      preLoaderRoute: typeof UploadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/gallery': {
       id: '/gallery'
       path: '/gallery'
@@ -107,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   DashboardRoute: DashboardRoute,
   GalleryRoute: GalleryRoute,
+  UploadRoute: UploadRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
