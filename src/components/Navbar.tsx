@@ -1,11 +1,13 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { Code2, LogOut, Upload, LayoutDashboard, Image as ImageIcon } from "lucide-react";
+import { Code2, LogOut, Upload, LayoutDashboard, Image as ImageIcon, Settings, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
+import { useIsAdmin } from "@/hooks/use-role";
 import { supabase } from "@/integrations/supabase/client";
 
 export function Navbar() {
   const { user, loading } = useAuth();
+  const isAdmin = useIsAdmin();
   const navigate = useNavigate();
   const path = useRouterState({ select: (s) => s.location.pathname });
 
