@@ -2,8 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Code2, Upload, Users, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
 import { ProjectCard } from "@/components/ProjectCard";
+import { fetchProjectsWithProfiles } from "@/lib/projects";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -12,15 +12,7 @@ export const Route = createFileRoute("/")({
 function Index() {
   const { data: projects } = useQuery({
     queryKey: ["recent-projects"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("projects")
-        .select("*, profiles(username, display_name, avatar_url)")
-        .order("created_at", { ascending: false })
-        .limit(6);
-      if (error) throw error;
-      return data;
-    },
+    queryFn: () => fetchProjectsWithProfiles({ limit: 6 }),
   });
 
   return (
