@@ -9,6 +9,8 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { Navbar } from "@/components/Navbar";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -72,11 +74,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "DevGrow Hub — Beginner Developer Community" },
+      { name: "description", content: "Showcase HTML, CSS & JavaScript projects in a friendly community for beginner developers." },
+      { name: "author", content: "DevGrow Hub" },
+      { property: "og:title", content: "DevGrow Hub — Beginner Developer Community" },
+      { property: "og:description", content: "Showcase HTML, CSS & JavaScript projects in a friendly community for beginner developers." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
@@ -100,7 +102,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body className="min-h-screen bg-background text-foreground antialiased">
         {children}
         <Scripts />
       </body>
@@ -113,7 +115,9 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <Navbar />
       <Outlet />
+      <Toaster richColors theme="dark" position="top-right" />
     </QueryClientProvider>
   );
 }

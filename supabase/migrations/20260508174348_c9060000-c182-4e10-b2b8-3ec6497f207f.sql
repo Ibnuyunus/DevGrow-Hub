@@ -1,0 +1,1 @@
+DROP POLICY "Preview images are publicly accessible" ON storage.objects;
