@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UploadRouteImport } from './routes/upload'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -20,6 +21,11 @@ import { Route as PIdRouteImport } from './routes/p.$id'
 const UploadRoute = UploadRouteImport.update({
   id: '/upload',
   path: '/upload',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GalleryRoute = GalleryRouteImport.update({
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
   '/gallery': typeof GalleryRoute
+  '/settings': typeof SettingsRoute
   '/upload': typeof UploadRoute
   '/p/$id': typeof PIdRoute
   '/u/$username': typeof UUsernameRoute
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
   '/gallery': typeof GalleryRoute
+  '/settings': typeof SettingsRoute
   '/upload': typeof UploadRoute
   '/p/$id': typeof PIdRoute
   '/u/$username': typeof UUsernameRoute
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
   '/gallery': typeof GalleryRoute
+  '/settings': typeof SettingsRoute
   '/upload': typeof UploadRoute
   '/p/$id': typeof PIdRoute
   '/u/$username': typeof UUsernameRoute
@@ -88,6 +97,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/dashboard'
     | '/gallery'
+    | '/settings'
     | '/upload'
     | '/p/$id'
     | '/u/$username'
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/dashboard'
     | '/gallery'
+    | '/settings'
     | '/upload'
     | '/p/$id'
     | '/u/$username'
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/dashboard'
     | '/gallery'
+    | '/settings'
     | '/upload'
     | '/p/$id'
     | '/u/$username'
@@ -116,6 +128,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   DashboardRoute: typeof DashboardRoute
   GalleryRoute: typeof GalleryRoute
+  SettingsRoute: typeof SettingsRoute
   UploadRoute: typeof UploadRoute
   PIdRoute: typeof PIdRoute
   UUsernameRoute: typeof UUsernameRoute
@@ -128,6 +141,13 @@ declare module '@tanstack/react-router' {
       path: '/upload'
       fullPath: '/upload'
       preLoaderRoute: typeof UploadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/gallery': {
@@ -180,6 +200,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   DashboardRoute: DashboardRoute,
   GalleryRoute: GalleryRoute,
+  SettingsRoute: SettingsRoute,
   UploadRoute: UploadRoute,
   PIdRoute: PIdRoute,
   UUsernameRoute: UUsernameRoute,
@@ -187,3 +208,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
