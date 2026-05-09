@@ -9,6 +9,8 @@ import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { z } from "zod";
+import { CATEGORIES } from "@/lib/categories";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export const Route = createFileRoute("/upload")({
   component: UploadPage,
@@ -28,6 +30,7 @@ function UploadPage() {
   const [description, setDescription] = useState("");
   const [liveUrl, setLiveUrl] = useState("");
   const [sourceUrl, setSourceUrl] = useState("");
+  const [category, setCategory] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -79,6 +82,7 @@ function UploadPage() {
         live_url: parsed.data.live_url || null,
         source_url: parsed.data.source_url || null,
         preview_image_url,
+        category: category || null,
       });
       if (error) throw error;
       toast.success("Project uploaded!");
@@ -126,6 +130,20 @@ function UploadPage() {
             <Label htmlFor="source">Source URL</Label>
             <Input id="source" type="url" value={sourceUrl} onChange={(e) => setSourceUrl(e.target.value)} placeholder="https://github.com/..." />
           </div>
+        </div>
+
+        <div>
+          <Label htmlFor="category">Category</Label>
+          <Select value={category} onValueChange={setCategory}>
+            <SelectTrigger id="category">
+              <SelectValue placeholder="Pick a category" />
+            </SelectTrigger>
+            <SelectContent>
+              {CATEGORIES.map((c) => (
+                <SelectItem key={c} value={c}>{c}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div>
