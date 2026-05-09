@@ -42,8 +42,13 @@ export function ProjectCard({ project }: { project: Project }) {
         <Link to="/p/$id" params={{ id: project.id }}>
           <h3 className="line-clamp-1 font-semibold text-foreground hover:text-primary">{project.title}</h3>
         </Link>
+        {(project as any).category && (
+          <span className="mt-2 inline-block rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-primary">
+            {(project as any).category}
+          </span>
+        )}
         {project.description && (
-          <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{project.description}</p>
+          <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{project.description}</p>
         )}
         {project.profiles && (
           <Link
