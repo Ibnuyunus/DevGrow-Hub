@@ -80,7 +80,7 @@ function Index() {
           <div className="rounded-xl border border-dashed border-border/60 bg-card/40 p-12 text-center">
             <p className="text-muted-foreground">No projects yet. Be the first to share!</p>
             <Button asChild className="mt-4 bg-hero-gradient text-primary-foreground">
-              <Link to="/auth">Get started</Link>
+              <Link to="/auth" search={{ mode: "signup" }}>Get started</Link>
             </Button>
           </div>
         )}
