@@ -182,7 +182,7 @@ function ProjectPage() {
           </form>
         ) : (
           <div className="mb-6 rounded-xl border border-dashed border-border/60 p-4 text-center text-sm text-muted-foreground">
-            <Link to="/auth" className="text-accent hover:underline">Sign in</Link> to leave a comment.
+            <Link to="/auth" search={{ mode: "login" }} className="text-accent hover:underline">Sign in</Link> to leave a comment.
           </div>
         )}
 
