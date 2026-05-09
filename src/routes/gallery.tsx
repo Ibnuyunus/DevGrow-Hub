@@ -1,11 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
-import { Search } from "lucide-react";
+import { Search, Settings2 } from "lucide-react";
 import { ProjectCard } from "@/components/ProjectCard";
 import { fetchProjectsWithProfiles } from "@/lib/projects";
 import { Input } from "@/components/ui/input";
-import { CATEGORIES } from "@/lib/categories";
+import { Button } from "@/components/ui/button";
+import { useCategories } from "@/lib/categories";
+import { useIsAdmin } from "@/hooks/use-role";
+import { CategoryManager } from "@/components/CategoryManager";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/gallery")({
@@ -25,9 +28,12 @@ function Gallery() {
     queryKey: ["all-projects"],
     queryFn: () => fetchProjectsWithProfiles(),
   });
+  const { data: categories } = useCategories();
+  const isAdmin = useIsAdmin();
 
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<string>("All");
+  const [showManager, setShowManager] = useState(false);
 
   const filtered = useMemo(() => {
     if (!projects) return [];
@@ -44,14 +50,33 @@ function Gallery() {
     });
   }, [projects, query, category]);
 
-  const chips = ["All", ...CATEGORIES];
+  const chips = ["All", ...(categories?.map((c) => c.name) ?? [])];
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-12">
-      <header className="mb-8">
-        <h1 className="text-3xl font-bold sm:text-4xl">Project Gallery</h1>
-        <p className="mt-2 text-muted-foreground">Discover what the community is building.</p>
+      <header className="mb-8 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h1 className="text-3xl font-bold sm:text-4xl">Project Gallery</h1>
+          <p className="mt-2 text-muted-foreground">Discover what the community is building.</p>
+        </div>
+        {isAdmin && (
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => setShowManager((v) => !v)}
+          >
+            <Settings2 className="h-4 w-4" />
+            {showManager ? "Hide categories" : "Manage categories"}
+          </Button>
+        )}
       </header>
+
+      {isAdmin && showManager && (
+        <div className="mb-6">
+          <CategoryManager />
+        </div>
+      )}
 
       <div className="mb-6 space-y-4">
         <div className="relative">

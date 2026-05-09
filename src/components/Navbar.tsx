@@ -48,10 +48,10 @@ export function Navbar() {
           {!loading && !user && (
             <>
               <Button asChild variant="ghost" size="sm">
-                <Link to="/auth">Sign in</Link>
+                <Link to="/auth" search={{ mode: "login" }}>Sign in</Link>
               </Button>
               <Button asChild size="sm" className="bg-hero-gradient text-primary-foreground hover:opacity-90">
-                <Link to="/auth">Get started</Link>
+                <Link to="/auth" search={{ mode: "signup" }}>Get started</Link>
               </Button>
             </>
           )}

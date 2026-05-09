@@ -9,7 +9,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { z } from "zod";
-import { CATEGORIES } from "@/lib/categories";
+import { useCategories } from "@/lib/categories";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export const Route = createFileRoute("/upload")({
@@ -26,6 +26,7 @@ const schema = z.object({
 function UploadPage() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
+  const { data: categories } = useCategories();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [liveUrl, setLiveUrl] = useState("");
@@ -139,8 +140,8 @@ function UploadPage() {
               <SelectValue placeholder="Pick a category" />
             </SelectTrigger>
             <SelectContent>
-              {CATEGORIES.map((c) => (
-                <SelectItem key={c} value={c}>{c}</SelectItem>
+              {categories?.map((c) => (
+                <SelectItem key={c.id} value={c.name}>{c.name}</SelectItem>
               ))}
             </SelectContent>
           </Select>

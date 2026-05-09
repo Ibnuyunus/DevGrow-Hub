@@ -35,7 +35,7 @@ function Index() {
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Button asChild size="lg" className="bg-hero-gradient text-primary-foreground shadow-glow hover:opacity-90">
-                <Link to="/auth">
+                <Link to="/auth" search={{ mode: "signup" }}>
                   Join the community <ArrowRight className="ml-1 h-4 w-4" />
                 </Link>
               </Button>
@@ -80,7 +80,7 @@ function Index() {
           <div className="rounded-xl border border-dashed border-border/60 bg-card/40 p-12 text-center">
             <p className="text-muted-foreground">No projects yet. Be the first to share!</p>
             <Button asChild className="mt-4 bg-hero-gradient text-primary-foreground">
-              <Link to="/auth">Get started</Link>
+              <Link to="/auth" search={{ mode: "signup" }}>Get started</Link>
             </Button>
           </div>
         )}
