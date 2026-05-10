@@ -80,6 +80,11 @@ function Dashboard() {
         <Button asChild className="bg-hero-gradient text-primary-foreground">
           <Link to="/upload"><Plus className="mr-1 h-4 w-4" /> New project</Link>
         </Button>
+        {isAdmin && (
+          <Button asChild variant="outline">
+            <Link to="/admin"><Shield className="mr-1 h-4 w-4" /> Admin dashboard</Link>
+          </Button>
+        )}
       </header>
 
       <h2 className="mb-4 text-xl font-semibold">Your projects</h2>
