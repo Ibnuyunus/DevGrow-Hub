@@ -61,8 +61,13 @@ function Dashboard() {
     <main className="mx-auto max-w-6xl px-4 py-12">
       <header className="mb-10 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold">
+          <h1 className="text-3xl font-bold flex flex-wrap items-center gap-3">
             Welcome back, <span className="text-gradient">{profile?.display_name ?? profile?.username ?? "dev"}</span>
+            {isAdmin && (
+              <span className="inline-flex items-center gap-1 rounded-full border border-primary/40 bg-primary/10 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-primary">
+                <Shield className="h-3.5 w-3.5" /> Admin
+              </span>
+            )}
           </h1>
           <p className="mt-2 text-muted-foreground">
             {profile && (
