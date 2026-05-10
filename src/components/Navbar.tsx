@@ -66,6 +66,11 @@ export function Navbar() {
               <Button asChild size="sm" variant="ghost" className="sm:hidden">
                 <Link to="/gallery"><ImageIcon className="h-4 w-4" /></Link>
               </Button>
+              {isAdmin && (
+                <span className="inline-flex items-center gap-1 rounded-full border border-primary/40 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
+                  <Shield className="h-3 w-3" /> Admin
+                </span>
+              )}
               <Button asChild size="sm" variant="ghost">
                 <Link to="/settings"><Settings className="h-4 w-4" /><span className="ml-1 hidden sm:inline">Settings</span></Link>
               </Button>
