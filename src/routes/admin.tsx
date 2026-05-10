@@ -14,7 +14,7 @@ export const Route = createFileRoute("/admin")({
 
 function Admin() {
   const { user, loading } = useAuth();
-  const isAdmin = useIsAdmin();
+  const { isAdmin, isLoading: isAdminLoading } = useIsAdmin({ userId: user?.id, authLoading: loading });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -59,7 +59,7 @@ function Admin() {
     }
   };
 
-  if (loading || !user) return <div className="p-12 text-center text-muted-foreground">Loading…</div>;
+  if (loading || isAdminLoading || !user) return <div className="p-12 text-center text-muted-foreground">Loading…</div>;
 
   if (!isAdmin) {
     return (

@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 export function Navbar() {
   const { user, loading } = useAuth();
-  const isAdmin = useIsAdmin();
+  const { isAdmin, isLoading: isAdminLoading } = useIsAdmin({ userId: user?.id, authLoading: loading });
   const navigate = useNavigate();
   const path = useRouterState({ select: (s) => s.location.pathname });
 
@@ -41,7 +41,7 @@ export function Navbar() {
           <NavLink to="/gallery" label="Gallery" />
           {user && <NavLink to="/dashboard" label="Dashboard" />}
           {user && <NavLink to="/upload" label="Upload" />}
-          {isAdmin && <NavLink to="/admin" label="Admin" />}
+          {!isAdminLoading && isAdmin && <NavLink to="/admin" label="Admin" />}
         </nav>
 
         <div className="flex items-center gap-2">
@@ -66,7 +66,7 @@ export function Navbar() {
               <Button asChild size="sm" variant="ghost" className="sm:hidden">
                 <Link to="/gallery"><ImageIcon className="h-4 w-4" /></Link>
               </Button>
-              {isAdmin && (
+              {!isAdminLoading && isAdmin && (
                 <span className="inline-flex items-center gap-1 rounded-full border border-primary/40 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
                   <Shield className="h-3 w-3" /> Admin
                 </span>
@@ -74,7 +74,7 @@ export function Navbar() {
               <Button asChild size="sm" variant="ghost">
                 <Link to="/settings"><Settings className="h-4 w-4" /><span className="ml-1 hidden sm:inline">Settings</span></Link>
               </Button>
-              {isAdmin && (
+              {!isAdminLoading && isAdmin && (
                 <Button asChild size="sm" variant="ghost" className="sm:hidden">
                   <Link to="/admin"><Shield className="h-4 w-4" /></Link>
                 </Button>

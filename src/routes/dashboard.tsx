@@ -16,7 +16,7 @@ export const Route = createFileRoute("/dashboard")({
 
 function Dashboard() {
   const { user, loading } = useAuth();
-  const isAdmin = useIsAdmin();
+  const { isAdmin, isLoading: isAdminLoading } = useIsAdmin({ userId: user?.id, authLoading: loading });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -53,7 +53,7 @@ function Dashboard() {
     }
   };
 
-  if (loading || !user) {
+  if (loading || isAdminLoading || !user) {
     return <div className="p-12 text-center text-muted-foreground">Loading…</div>;
   }
 

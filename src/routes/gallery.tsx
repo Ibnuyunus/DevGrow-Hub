@@ -29,7 +29,7 @@ function Gallery() {
     queryFn: () => fetchProjectsWithProfiles(),
   });
   const { data: categories } = useCategories();
-  const isAdmin = useIsAdmin();
+  const { isAdmin, isLoading: isAdminLoading } = useIsAdmin();
 
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<string>("All");
@@ -59,7 +59,7 @@ function Gallery() {
           <h1 className="text-3xl font-bold sm:text-4xl">Project Gallery</h1>
           <p className="mt-2 text-muted-foreground">Discover what the community is building.</p>
         </div>
-        {isAdmin && (
+        {!isAdminLoading && isAdmin && (
           <Button
             type="button"
             variant="outline"
@@ -72,7 +72,7 @@ function Gallery() {
         )}
       </header>
 
-      {isAdmin && showManager && (
+      {!isAdminLoading && isAdmin && showManager && (
         <div className="mb-6">
           <CategoryManager />
         </div>
