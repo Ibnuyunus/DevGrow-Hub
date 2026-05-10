@@ -1,9 +1,10 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
+import { useIsAdmin } from "@/hooks/use-role";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchProjectsWithProfiles } from "@/lib/projects";
 import { ProjectCard } from "@/components/ProjectCard";
@@ -15,6 +16,7 @@ export const Route = createFileRoute("/dashboard")({
 
 function Dashboard() {
   const { user, loading } = useAuth();
+  const isAdmin = useIsAdmin();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -59,8 +61,13 @@ function Dashboard() {
     <main className="mx-auto max-w-6xl px-4 py-12">
       <header className="mb-10 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold">
+          <h1 className="text-3xl font-bold flex flex-wrap items-center gap-3">
             Welcome back, <span className="text-gradient">{profile?.display_name ?? profile?.username ?? "dev"}</span>
+            {isAdmin && (
+              <span className="inline-flex items-center gap-1 rounded-full border border-primary/40 bg-primary/10 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-primary">
+                <Shield className="h-3.5 w-3.5" /> Admin
+              </span>
+            )}
           </h1>
           <p className="mt-2 text-muted-foreground">
             {profile && (
@@ -73,6 +80,11 @@ function Dashboard() {
         <Button asChild className="bg-hero-gradient text-primary-foreground">
           <Link to="/upload"><Plus className="mr-1 h-4 w-4" /> New project</Link>
         </Button>
+        {isAdmin && (
+          <Button asChild variant="outline">
+            <Link to="/admin"><Shield className="mr-1 h-4 w-4" /> Admin dashboard</Link>
+          </Button>
+        )}
       </header>
 
       <h2 className="mb-4 text-xl font-semibold">Your projects</h2>
